@@ -4,6 +4,7 @@ import 'package:omni_ledger/features/auth/domain/repositories/auth_repository.da
 import 'package:omni_ledger/features/auth/presentation/pages/login_page.dart';
 import 'package:omni_ledger/features/main/presentation/pages/main_page.dart';
 import 'package:omni_ledger/injection_container.dart';
+import 'package:omni_ledger/features/inventory/presentation/pages/create_item_page.dart';
 
 final router = GoRouter(
   initialLocation: AppConstants.mainPage,
@@ -26,6 +27,10 @@ final router = GoRouter(
     GoRoute(
       path: AppConstants.mainPage,
       builder: (context, state) => const MainPage(),
+    ),
+    GoRoute(
+      path: AppConstants.additemPage,
+      builder: (context, state) => const CreateItemPage(),
     ),
     // GoRoute(
     //   path: '/home',
