@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:omni_ledger/core/constants/app_constants.dart';
 import 'package:omni_ledger/features/auth/presentation/widgets/login_form.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
@@ -16,7 +17,7 @@ class LoginPage extends StatelessWidget {
         buildWhen: (prev, curr) => curr is! AuthSuccess,
         listener: (context, state) {
           if (state is AuthSuccess) {
-            context.go('/home');
+            context.go(AppConstants.mainPage);
           }
 
           if (state is AuthError) {
@@ -31,7 +32,11 @@ class LoginPage extends StatelessWidget {
               const LoginForm(),
 
               if (state is AuthLoading)
-                const Center(child: CircularProgressIndicator()),
+                const Center(
+                  child: CircularProgressIndicator(
+                    color: AppConstants.primaryColor,
+                  ),
+                ),
             ],
           );
         },
