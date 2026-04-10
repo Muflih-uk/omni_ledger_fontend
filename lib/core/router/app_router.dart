@@ -1,19 +1,30 @@
-// import 'package:go_router/go_router.dart';
-// import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:omni_ledger/core/constants/app_constants.dart';
+import 'package:omni_ledger/features/auth/domain/repositories/auth_repository.dart';
+import 'package:omni_ledger/features/auth/presentation/pages/login_page.dart';
+import 'package:omni_ledger/injection_container.dart';
 
-// import 'features/auth/presentation/pages/login_page.dart';
-// import 'features/history/presentation/pages/history_page.dart';
+final router = GoRouter(
+  initialLocation: '/',
+  redirect: (context, state) {
+    final authRepo = sl<AuthRepository>();
+    final isLoggedIn = authRepo.isLoggedIn();
 
-// final GoRouter router = GoRouter(
-//   initialLocation: '/',
-//   routes: [
-//     GoRoute(
-//       path: '/',
-//       builder: (context, state) => const LoginPage(),
-//     ),
-//     GoRoute(
-//       path: '/history',
-//       builder: (context, state) => const HistoryPage(),
-//     ),
-//   ],
-// );
+    final isLoginPage = state.fullPath == '/';
+
+    if (!isLoggedIn && !isLoginPage) return '/';
+    if (isLoggedIn && isLoginPage) return '/home';
+
+    return null;
+  },
+  routes: [
+    GoRoute(
+      path: AppConstants.mainPage,
+      builder: (context, state) => const LoginPage(),
+    ),
+    // GoRoute(
+    //   path: '/home',
+    //   builder: (context, state) => const HistoryPage(), // temp home
+    // ),
+  ],
+);
