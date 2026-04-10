@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:omni_ledger/features/inventory/presentation/bloc/item_bloc.dart';
 
 import 'app.dart';
 import 'injection_container.dart' as di;
@@ -18,7 +19,10 @@ class MyAppWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider<AuthBloc>(create: (_) => di.sl<AuthBloc>())],
+      providers: [
+        BlocProvider<AuthBloc>(create: (_) => di.sl<AuthBloc>()),
+        BlocProvider<ItemBloc>(create: (_) => di.sl<ItemBloc>()),
+      ],
       child: const MyApp(),
     );
   }
