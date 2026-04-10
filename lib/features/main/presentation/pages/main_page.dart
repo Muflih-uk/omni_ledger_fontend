@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:omni_ledger/core/constants/app_constants.dart';
 import 'package:omni_ledger/features/inventory/presentation/pages/inventory_page.dart';
 import 'package:omni_ledger/features/main/presentation/bloc/bloc.dart';
 import 'package:omni_ledger/features/main/presentation/bloc/event.dart';
@@ -47,7 +49,9 @@ class MainPage extends StatelessWidget {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                context.go(AppConstants.additemPage);
+              },
               child: Icon(Icons.add),
             ),
           );
