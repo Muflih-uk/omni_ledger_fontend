@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:omni_ledger/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:omni_ledger/features/auth/presentation/bloc/auth_event.dart';
+
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: phoneController,
+            decoration: const InputDecoration(labelText: 'Phone Number'),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: const InputDecoration(labelText: 'Password'),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              context.read<AuthBloc>().add(
+                LoginEvent(phoneController.text, passwordController.text),
+              );
+            },
+            child: const Text('Login'),
+          ),
+        ],
+      ),
+    );
+  }
+}
