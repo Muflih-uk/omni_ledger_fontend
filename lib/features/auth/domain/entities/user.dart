@@ -1,7 +1,11 @@
 class User {
-  final String id;
-  final String phone;
-  final String token;
+  final String accessToken;
+  final String tokenType;
+  final String role;
 
-  User({required this.id, required this.phone, required this.token});
+  User({
+    required this.accessToken,
+    required this.tokenType,
+    required this.role,
+  });
 }

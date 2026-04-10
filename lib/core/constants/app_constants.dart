@@ -11,4 +11,5 @@ class AppConstants {
   static const String mainPage = '/';
   static const String additemPage = '/add-item';
   static const String addBillingPage = '/add-bill';
+  static const String login = '/login';
 }

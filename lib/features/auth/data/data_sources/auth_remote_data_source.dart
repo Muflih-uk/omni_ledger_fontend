@@ -11,11 +11,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel> login(String phone, String password) async {
-    final res = await dio.post(
-      '/auth/login',
-      data: {'phone': phone, 'password': password},
-    );
+    try {
+      final res = await dio.post(
+        '/auth/login',
+        data: {'phone': phone, 'password': password},
+      );
 
-    return UserModel.fromJson(res.data);
+      print("Response: ${res.data}");
+
+      return UserModel.fromJson(res.data);
+    } on DioException catch (e) {
+      print("Dio Error: ${e.response?.data}");
+      print("Status Code: ${e.response?.statusCode}");
+      throw Exception("Login failed");
+    } catch (e) {
+      print("Unknown Error: $e");
+      throw Exception("Something went wrong");
+    }
   }
 }

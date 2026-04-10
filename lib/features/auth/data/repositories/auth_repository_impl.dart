@@ -12,7 +12,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> login(String phone, String password) async {
     final user = await remote.login(phone, password);
-    await local.saveToken(user.token);
+    await local.saveToken(user.accessToken);
 
     return user;
   }

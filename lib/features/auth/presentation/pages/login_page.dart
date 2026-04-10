@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:omni_ledger/core/constants/app_constants.dart';
 import 'package:omni_ledger/features/auth/presentation/widgets/login_form.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
@@ -13,10 +12,13 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
+        listenWhen: (prev, curr) => curr is AuthSuccess || curr is AuthError,
+        buildWhen: (prev, curr) => curr is! AuthSuccess,
         listener: (context, state) {
           if (state is AuthSuccess) {
-            context.go(AppConstants.mainPage);
+            context.go('/home');
           }
+
           if (state is AuthError) {
             ScaffoldMessenger.of(
               context,
@@ -24,10 +26,14 @@ class LoginPage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return const LoginForm();
+          return Stack(
+            children: [
+              const LoginForm(),
+
+              if (state is AuthLoading)
+                const Center(child: CircularProgressIndicator()),
+            ],
+          );
         },
       ),
     );

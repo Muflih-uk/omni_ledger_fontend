@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:go_router/go_router.dart';
-
+import 'package:omni_ledger/core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
-//import 'router.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Omni Ledger',
-      //routerConfig: router,
+      routerConfig: router,
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
     );
