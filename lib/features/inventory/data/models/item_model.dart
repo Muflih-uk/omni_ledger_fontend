@@ -5,9 +5,9 @@ class ItemModel extends Item {
 
   factory ItemModel.fromJson(Map<String, dynamic> json) {
     return ItemModel(
-      id: json["id"],
-      name: json["name"],
-      unitPrice: json["unit_price"].toDouble(),
+      id: json["id"] as int,
+      name: json["name"] as String,
+      unitPrice: (json["unit_price"] as num).toDouble(),
     );
   }
 }

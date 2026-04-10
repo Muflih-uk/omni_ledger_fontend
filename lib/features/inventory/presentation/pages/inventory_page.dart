@@ -47,7 +47,7 @@ class InventoryPage extends StatelessWidget {
 
                       return ListTile(
                         title: Text(item.name),
-                        subtitle: Text("₹${item.price}"),
+                        subtitle: Text("₹${item.unitPrice}"),
                       );
                     },
                   );

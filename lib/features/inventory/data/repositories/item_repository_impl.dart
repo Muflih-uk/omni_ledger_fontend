@@ -11,4 +11,9 @@ class ItemRepositoryImpl implements ItemRepositories {
   Future<List<ItemModel>> getItems() async {
     return await remote.getItems();
   }
+
+  @override
+  Future<void> createItem(String name, double price) async {
+    return await remote.createItem(name, price);
+  }
 }
