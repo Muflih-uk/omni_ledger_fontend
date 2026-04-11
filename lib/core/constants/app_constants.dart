@@ -12,4 +12,17 @@ class AppConstants {
   static const String additemPage = '/add-item';
   static const String addBillingPage = '/add-bill';
   static const String login = '/login';
+
+  // Gradient
+  static const LinearGradient bgGradient = LinearGradient(
+    colors: [Color(0xFFE0F4FF), Colors.white],
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter,
+  );
+
+  // Screen Padding
+  static const EdgeInsets screenPadding = EdgeInsets.symmetric(
+    vertical: 3,
+    horizontal: 20,
+  );
 }

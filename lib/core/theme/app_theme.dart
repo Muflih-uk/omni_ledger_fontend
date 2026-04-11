@@ -7,8 +7,8 @@ class AppTheme {
     useMaterial3: true,
 
     primaryColor: AppConstants.primaryColor,
-    scaffoldBackgroundColor: Colors.white,
 
+    scaffoldBackgroundColor: Colors.transparent,
     colorScheme: ColorScheme.light(
       primary: AppConstants.primaryColor,
       secondary: AppConstants.secondaryColor,
@@ -16,14 +16,23 @@ class AppTheme {
     ),
 
     textTheme: TextTheme(
-      headlineLarge: GoogleFonts.manrope(fontWeight: FontWeight.bold),
-      headlineMedium: GoogleFonts.manrope(fontWeight: FontWeight.bold),
-      headlineSmall: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+      headlineLarge: GoogleFonts.manrope(
+        fontWeight: FontWeight.bold,
+        color: AppConstants.primaryColor,
+      ),
+      headlineMedium: GoogleFonts.manrope(
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+      headlineSmall: GoogleFonts.manrope(
+        fontWeight: FontWeight.w600,
+        color: AppConstants.primaryColor,
+      ),
       titleLarge: GoogleFonts.manrope(fontWeight: FontWeight.w600),
 
       bodyLarge: GoogleFonts.inter(),
-      bodyMedium: GoogleFonts.inter(),
-      bodySmall: GoogleFonts.inter(),
+      bodyMedium: GoogleFonts.inter(color: Colors.white),
+      bodySmall: GoogleFonts.inter(color: AppConstants.secondaryColor),
 
       labelLarge: GoogleFonts.inter(fontWeight: FontWeight.w500),
       labelMedium: GoogleFonts.inter(),
@@ -32,35 +41,12 @@ class AppTheme {
 
     appBarTheme: AppBarTheme(
       elevation: 0,
-      centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       foregroundColor: AppConstants.primaryColor,
       titleTextStyle: GoogleFonts.manrope(
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: AppConstants.primaryColor,
-      ),
-    ),
-
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppConstants.primaryColor,
-        foregroundColor: Colors.white,
-        textStyle: GoogleFonts.inter(fontWeight: FontWeight.w500),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        padding: const EdgeInsets.symmetric(vertical: 14),
-      ),
-    ),
-
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: Colors.grey.shade100,
-      hintStyle: GoogleFonts.inter(),
-      labelStyle: GoogleFonts.inter(),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppConstants.primaryColor, width: 2),
       ),
     ),
 
