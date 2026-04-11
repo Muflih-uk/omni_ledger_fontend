@@ -8,4 +8,8 @@ class BillUsecases {
   Future<void> call(Map<String, dynamic> data) {
     return billRepository.createBill(data);
   }
+
+  Future<List> getBills(String status) {
+    return billRepository.getBills(status);
+  }
 }

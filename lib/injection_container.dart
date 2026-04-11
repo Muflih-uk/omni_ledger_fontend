@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:omni_ledger/features/bill/presentation/bill_bloc/history_bloc/history_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/dio_client.dart';
@@ -99,4 +100,5 @@ Future<void> init() async {
   sl.registerFactory(() => AuthBloc(sl()));
   sl.registerFactory(() => ItemBloc(sl()));
   sl.registerFactory(() => BillingBloc(sl()));
+  sl.registerFactory(() => HistoryBloc(sl()));
 }

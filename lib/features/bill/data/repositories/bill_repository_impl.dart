@@ -1,4 +1,5 @@
 import 'package:omni_ledger/features/bill/data/data_source/billing_remote_data_source.dart';
+import 'package:omni_ledger/features/bill/data/models/bill_model.dart';
 import 'package:omni_ledger/features/bill/domain/repositories/bill_repository.dart';
 
 class BillRepositoryImpl extends BillRepository {
@@ -9,5 +10,10 @@ class BillRepositoryImpl extends BillRepository {
   @override
   Future<void> createBill(Map<String, dynamic> data) {
     return remote.createBill(data);
+  }
+
+  @override
+  Future<List<BillModel>> getBills(String status) {
+    return remote.getBills(status);
   }
 }
