@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omni_ledger/core/constants/app_constants.dart';
+import 'package:omni_ledger/features/bill/presentation/pages/create_bill_page.dart';
 import 'package:omni_ledger/features/inventory/presentation/pages/inventory_page.dart';
 import 'package:omni_ledger/features/main/presentation/bloc/bloc.dart';
 import 'package:omni_ledger/features/main/presentation/bloc/event.dart';
@@ -12,7 +13,7 @@ class MainPage extends StatelessWidget {
 
   final List<Widget> pages = const [
     Center(child: Text("Home Page")),
-    Center(child: Text("Billing Page")),
+    CreateBillPage(),
     Center(child: Text("History Page")),
     InventoryPage(),
   ];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:omni_ledger/features/bill/presentation/bill_bloc/bill_bloc.dart';
 import 'package:omni_ledger/features/inventory/presentation/bloc/item_bloc.dart';
 
 import 'app.dart';
@@ -22,6 +23,7 @@ class MyAppWrapper extends StatelessWidget {
       providers: [
         BlocProvider<AuthBloc>(create: (_) => di.sl<AuthBloc>()),
         BlocProvider<ItemBloc>(create: (_) => di.sl<ItemBloc>()),
+        BlocProvider<BillingBloc>(create: (_) => di.sl<BillingBloc>()),
       ],
       child: const MyApp(),
     );
