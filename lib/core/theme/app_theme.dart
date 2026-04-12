@@ -28,7 +28,11 @@ class AppTheme {
         fontWeight: FontWeight.w600,
         color: AppConstants.primaryColor,
       ),
-      titleLarge: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+      titleLarge: GoogleFonts.manrope(
+        fontSize: 32,
+        fontWeight: FontWeight.w600,
+        color: Colors.black,
+      ),
 
       bodyLarge: GoogleFonts.inter(
         color: AppConstants.tertiaryColor,

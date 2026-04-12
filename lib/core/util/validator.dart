@@ -22,4 +22,21 @@ class Validators {
 
     return null;
   }
+
+  static String? itemName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter item name";
+    }
+    return null;
+  }
+
+  static String? itemPrice(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter price";
+    }
+    if (double.tryParse(value) == null) {
+      return "Invalid number";
+    }
+    return null;
+  }
 }
