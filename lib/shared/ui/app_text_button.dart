@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omni_ledger/core/constants/app_constants.dart';
 
 class AppTextButton extends StatelessWidget {
   final String text;
@@ -24,7 +25,7 @@ class AppTextButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
+          backgroundColor: AppConstants.primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

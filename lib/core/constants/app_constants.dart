@@ -6,6 +6,9 @@ class AppConstants {
   static const Color secondaryColor = Color(0xFF516066);
   static const Color tertiaryColor = Color(0xFF885116);
   static const Color neutralColor = Color(0xFF74777A);
+  static const Color searchBarColor = Color(0xFFE0E3E5);
+  static const Color hintColor = Color(0xFFC4C7C9);
+  static const Color containerColor = Color(0xFFEFF1F3);
 
   // Route
   static const String mainPage = '/';
@@ -18,6 +21,12 @@ class AppConstants {
     colors: [Color(0xFFE0F4FF), Colors.white],
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,
+  );
+
+  static const LinearGradient loginGradient = LinearGradient(
+    colors: [Color(0xFFE0F4FF), Colors.white],
+    begin: Alignment.topRight,
+    end: Alignment.bottomCenter,
   );
 
   // Screen Padding

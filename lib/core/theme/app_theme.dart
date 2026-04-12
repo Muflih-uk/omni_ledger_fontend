@@ -30,12 +30,18 @@ class AppTheme {
       ),
       titleLarge: GoogleFonts.manrope(fontWeight: FontWeight.w600),
 
-      bodyLarge: GoogleFonts.inter(),
+      bodyLarge: GoogleFonts.inter(
+        color: AppConstants.tertiaryColor,
+        fontWeight: FontWeight.w600,
+      ),
       bodyMedium: GoogleFonts.inter(color: Colors.white),
       bodySmall: GoogleFonts.inter(color: AppConstants.secondaryColor),
 
-      labelLarge: GoogleFonts.inter(fontWeight: FontWeight.w500),
-      labelMedium: GoogleFonts.inter(),
+      labelLarge: GoogleFonts.inter(
+        fontWeight: FontWeight.w500,
+        color: AppConstants.secondaryColor,
+      ),
+      labelMedium: GoogleFonts.inter(color: AppConstants.primaryColor),
       labelSmall: GoogleFonts.inter(),
     ),
 

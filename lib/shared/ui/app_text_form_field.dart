@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omni_ledger/core/constants/app_constants.dart';
 
 class AppTextFormField extends StatelessWidget {
   final String? hintText;
@@ -31,6 +32,8 @@ class AppTextFormField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       decoration: InputDecoration(
+        fillColor: AppConstants.searchBarColor,
+        filled: true,
         hintText: hintText,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
@@ -38,7 +41,11 @@ class AppTextFormField extends StatelessWidget {
           horizontal: 16,
           vertical: 14,
         ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        hintStyle: TextStyle(color: AppConstants.hintColor),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
       ),
     );
   }
