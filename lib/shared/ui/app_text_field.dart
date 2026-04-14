@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omni_ledger/core/constants/app_constants.dart';
 
 class AppTextField extends StatelessWidget {
   final String? hintText;
@@ -28,14 +29,20 @@ class AppTextField extends StatelessWidget {
       obscureText: obscureText,
       onChanged: onChanged,
       decoration: InputDecoration(
+        fillColor: AppConstants.searchBarColor,
+        filled: true,
         hintText: hintText,
+        hintStyle: TextStyle(color: AppConstants.hintColor),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
         ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
       ),
     );
   }
