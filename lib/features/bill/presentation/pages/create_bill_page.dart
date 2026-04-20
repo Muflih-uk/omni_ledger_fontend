@@ -177,8 +177,18 @@ class _CreateBillPageState extends State<CreateBillPage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Text(item.name),
-                                                Text("₹${item.unitPrice}"),
+                                                Text(
+                                                  item.name,
+                                                  style: Theme.of(
+                                                    context,
+                                                  ).textTheme.labelSmall,
+                                                ),
+                                                Text(
+                                                  "₹${item.unitPrice}",
+                                                  style: Theme.of(
+                                                    context,
+                                                  ).textTheme.labelMedium,
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -200,7 +210,11 @@ class _CreateBillPageState extends State<CreateBillPage> {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   "Selected Items (${billState.selectedItems.length})",
-                                  style: const TextStyle(fontSize: 16),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
 
@@ -230,8 +244,18 @@ class _CreateBillPageState extends State<CreateBillPage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(item["name"]),
-                                              Text("₹${item["price"]}"),
+                                              Text(
+                                                item["name"],
+                                                style: Theme.of(
+                                                  context,
+                                                ).textTheme.labelSmall,
+                                              ),
+                                              Text(
+                                                "₹${item["price"]}",
+                                                style: Theme.of(
+                                                  context,
+                                                ).textTheme.labelMedium,
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -252,7 +276,12 @@ class _CreateBillPageState extends State<CreateBillPage> {
                                                 }
                                               },
                                             ),
-                                            Text("${item["quantity"]}"),
+                                            Text(
+                                              "${item["quantity"]}",
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.labelSmall,
+                                            ),
                                             IconButton(
                                               icon: const Icon(Icons.add),
                                               onPressed: () {

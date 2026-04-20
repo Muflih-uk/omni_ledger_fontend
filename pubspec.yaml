@@ -18,6 +18,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   get_it: ^9.2.1
   equatable: ^2.0.8
+  flutter_native_splash: ^2.4.7
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +29,27 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/logo.png
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/logo.png
+  android: true
+  ios: true
+
+  color_dark: "#121212"
+  image_dark: assets/logo.png
+
+  android_12:
+    image: assets/logo.png
+    icon_background_color: "#ffffff"
+    color: "#ffffff"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/logo.png"

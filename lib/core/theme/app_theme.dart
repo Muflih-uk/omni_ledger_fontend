@@ -45,8 +45,16 @@ class AppTheme {
         fontWeight: FontWeight.w500,
         color: AppConstants.secondaryColor,
       ),
-      labelMedium: GoogleFonts.inter(color: AppConstants.primaryColor),
-      labelSmall: GoogleFonts.inter(),
+      labelMedium: GoogleFonts.inter(
+        color: AppConstants.primaryColor,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+      labelSmall: GoogleFonts.inter(
+        color: Colors.black,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
     ),
 
     appBarTheme: AppBarTheme(
