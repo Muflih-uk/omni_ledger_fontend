@@ -7,7 +7,7 @@ class DioClient {
   DioClient({required Dio dio, required AppInterceptor interceptor})
     : dio = dio {
     dio.options = BaseOptions(
-      baseUrl: "https://shop.muflih.me",
+      baseUrl: "https://omni-ledger-backend.onrender.com/",
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
       headers: {"Content-Type": "application/json"},

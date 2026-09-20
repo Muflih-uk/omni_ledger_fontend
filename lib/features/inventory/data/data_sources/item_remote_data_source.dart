@@ -20,7 +20,11 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
 
   @override
   Future<void> createItem(String name, double price) async {
-    await dio.post('/items', data: {"name": name, "unit_price": price});
+    final response = await dio.post(
+      '/items',
+      data: {"name": name, "unit_price": price},
+    );
+    print(response);
     return;
   }
 }
