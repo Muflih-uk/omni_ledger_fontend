@@ -22,13 +22,22 @@ import 'features/bill/domain/repositories/bill_repository.dart';
 
 // Usecase
 import 'features/auth/domain/usecases/login_usecase.dart';
+import 'features/auth/domain/usecases/register_usecase.dart';
 import 'features/inventory/domain/usecases/items_usecases.dart';
 import 'features/bill/domain/usecases/bill_usecases.dart';
 
 // Bloc
+import 'features/ads/presentation/bloc/ad_bloc.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/inventory/presentation/bloc/item_bloc.dart';
 import 'features/bill/presentation/bill_bloc/bill_bloc.dart';
+import 'features/splash/presentation/bloc/splash_bloc.dart';
+
+// Splash
+import 'features/splash/data/data_sources/server_remote_data_source.dart';
+import 'features/splash/data/repositories/server_repository_impl.dart';
+import 'features/splash/domain/repositories/server_repository.dart';
+import 'features/splash/domain/usecases/check_server_usecase.dart';
 
 final sl = GetIt.instance;
 
@@ -72,6 +81,10 @@ Future<void> init() async {
     () => BillingRemoteDataSourceImpl(sl<DioClient>().dio),
   );
 
+  sl.registerLazySingleton<ServerRemoteDataSource>(
+    () => ServerRemoteDataSourceImpl(sl<DioClient>().dio),
+  );
+
   //! ------------------ REPOSITORY ------------------
 
   sl.registerLazySingleton<AuthRepository>(
@@ -89,16 +102,24 @@ Future<void> init() async {
     () => BillRepositoryImpl(sl<BillingRemoteDataSource>()),
   );
 
+  sl.registerLazySingleton<ServerRepository>(
+    () => ServerRepositoryImpl(sl<ServerRemoteDataSource>()),
+  );
+
   //! ------------------ USECASES ------------------
 
   sl.registerLazySingleton(() => LoginUsecase(sl()));
+  sl.registerLazySingleton(() => RegisterUsecase(sl()));
   sl.registerLazySingleton(() => ItemsUsecases(sl()));
   sl.registerLazySingleton(() => BillUsecases(sl()));
+  sl.registerLazySingleton(() => CheckServerUsecase(sl()));
 
   //! ------------------ BLOC ------------------
 
-  sl.registerFactory(() => AuthBloc(sl()));
+  sl.registerFactory(() => AuthBloc(sl(), sl()));
   sl.registerFactory(() => ItemBloc(sl()));
   sl.registerFactory(() => BillingBloc(sl()));
   sl.registerFactory(() => HistoryBloc(sl()));
+  sl.registerFactory(() => SplashBloc(sl(), sl()));
+  sl.registerFactory(() => AdBloc());
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:omni_ledger/core/constants/app_constants.dart';
+import 'package:omni_ledger/features/inventory/domain/entities/item.dart';
 import 'package:omni_ledger/features/inventory/presentation/bloc/item_bloc.dart';
 import 'package:omni_ledger/features/inventory/presentation/bloc/item_event.dart';
 import 'package:omni_ledger/features/inventory/presentation/bloc/item_state.dart';
+import 'package:omni_ledger/features/inventory/presentation/widgets/inventory_empty_state.dart';
+import 'package:omni_ledger/features/inventory/presentation/widgets/inventory_error_view.dart';
+import 'package:omni_ledger/features/inventory/presentation/widgets/item_card.dart';
 import 'package:omni_ledger/injection_container.dart';
-import 'package:omni_ledger/core/constants/app_constants.dart';
 import 'package:omni_ledger/shared/ui/app_text_field.dart';
 
 class InventoryPage extends StatelessWidget {
@@ -28,7 +33,22 @@ class InventoryPage extends StatelessWidget {
           ),
 
           Expanded(
-            child: BlocBuilder<ItemBloc, ItemState>(
+            child: BlocConsumer<ItemBloc, ItemState>(
+              listener: (context, state) {
+                if (state is ItemDeleted) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      const SnackBar(content: Text("Item deleted")),
+                    );
+                }
+
+                if (state is ItemError) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(content: Text(state.message)));
+                }
+              },
               builder: (context, state) {
                 if (state is ItemLoading) {
                   return const Center(
@@ -39,77 +59,24 @@ class InventoryPage extends StatelessWidget {
                 }
 
                 if (state is ItemLoaded) {
-                  return ListView.builder(
-                    itemCount: state.filterItems.length,
-                    itemBuilder: (context, index) {
-                      final item = state.filterItems[index];
+                  return _buildList(context, state.items, state.filterItems,
+                      state.deletingIds, state.items.isEmpty);
+                }
 
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 4,
-                              spreadRadius: 0,
-                            ),
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.name,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
-                                // Row(
-                                //   children: const [
-                                //     Icon(
-                                //       Icons.edit,
-                                //       size: 16,
-                                //       color: Colors.black54,
-                                //     ),
-                                //     SizedBox(width: 4),
-                                //     Text(
-                                //       "Edit",
-                                //       style: TextStyle(color: Colors.black54),
-                                //     ),
-                                //   ],
-                                // ),
-                              ],
-                            ),
-
-                            Text(
-                              "₹${item.unitPrice}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: AppConstants.primaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                if (state is ItemError && state.items != null) {
+                  final hasItems = state.items!.isNotEmpty;
+                  final filter = state.filterItems ?? state.items!;
+                  return _buildList(
+                    context,
+                    state.items!,
+                    filter,
+                    const {},
+                    hasItems,
                   );
                 }
 
                 if (state is ItemError) {
-                  return Center(child: Text(state.message));
+                  return InventoryErrorView(message: state.message);
                 }
 
                 return const SizedBox();
@@ -119,5 +86,74 @@ class InventoryPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildList(
+    BuildContext context,
+    List<Item> items,
+    List<Item> filterItems,
+    Set<int> deletingIds,
+    bool hasItems,
+  ) {
+    if (filterItems.isEmpty) {
+      return InventoryEmptyState(hasItems: hasItems);
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 96),
+      itemCount: filterItems.length,
+      itemBuilder: (context, index) {
+        final item = filterItems[index];
+
+        return ItemCard(
+          item: item,
+          isDeleting: deletingIds.contains(item.id),
+          onEdit: () {
+            context.go(AppConstants.edititemPage, extra: item);
+          },
+          onDelete: () async {
+            final confirmed = await _confirmDelete(context, item);
+            if (confirmed && context.mounted) {
+              context.read<ItemBloc>().add(DeleteItemEvent(item.id));
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Future<bool> _confirmDelete(BuildContext context, Item item) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text(
+          "Delete Item",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
+        ),
+        content: Text(
+          "Remove \"${item.name}\" from your inventory?",
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: AppConstants.secondaryColor),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(
+              "Delete",
+              style: TextStyle(color: AppConstants.dangerColor),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return result ?? false;
   }
 }

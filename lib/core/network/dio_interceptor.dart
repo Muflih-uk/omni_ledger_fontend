@@ -14,9 +14,4 @@ class AppInterceptor extends Interceptor {
     }
     super.onRequest(options, handler);
   }
-
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    super.onError(err, handler);
-  }
 }

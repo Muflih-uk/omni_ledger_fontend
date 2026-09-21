@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:omni_ledger/core/constants/app_constants.dart';
 import 'package:omni_ledger/features/home/presentation/widgets/add_item_widget.dart';
 import 'package:omni_ledger/features/home/presentation/widgets/new_bill_widget.dart';
-import 'package:omni_ledger/features/home/presentation/widgets/view_history_widget..dart';
+import 'package:omni_ledger/features/home/presentation/widgets/view_history_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

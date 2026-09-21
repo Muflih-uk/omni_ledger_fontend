@@ -12,4 +12,12 @@ class ItemsUsecases {
   Future<void> create(String name, double unitPrice) async {
     return await repository.createItem(name, unitPrice);
   }
+
+  Future<void> update(int id, String name, double unitPrice) async {
+    return await repository.updateItem(id, name, unitPrice);
+  }
+
+  Future<void> delete(int id) async {
+    return await repository.deleteItem(id);
+  }
 }

@@ -11,6 +11,13 @@ class Validators {
     return null;
   }
 
+  static String? name(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Name is required";
+    }
+    return null;
+  }
+
   static String? password(String? value) {
     if (value == null || value.isEmpty) {
       return "Password is required";

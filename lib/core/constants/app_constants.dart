@@ -9,12 +9,19 @@ class AppConstants {
   static const Color searchBarColor = Color(0xFFE0E3E5);
   static const Color hintColor = Color(0xFFC4C7C9);
   static const Color containerColor = Color(0xFFEFF1F3);
+  static const Color successColor = Color(0xFF2E7D32);
+  static const Color dangerColor = Color(0xFFD32F2F);
 
   // Route
+  static const String splashPage = '/splash';
   static const String mainPage = '/';
+  static const String mainPageInventory = '/?tab=inventory';
   static const String additemPage = '/add-item';
+  static const String edititemPage = '/edit-item';
   static const String addBillingPage = '/add-bill';
   static const String login = '/login';
+  static const String register = '/register';
+  static const String invoicePage = '/invoice';
 
   // Gradient
   static const LinearGradient bgGradient = LinearGradient(

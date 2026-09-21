@@ -16,4 +16,14 @@ class ItemRepositoryImpl implements ItemRepositories {
   Future<void> createItem(String name, double price) async {
     return await remote.createItem(name, price);
   }
+
+  @override
+  Future<void> updateItem(int id, String name, double price) async {
+    return await remote.updateItem(id, name, price);
+  }
+
+  @override
+  Future<void> deleteItem(int id) async {
+    return await remote.deleteItem(id);
+  }
 }

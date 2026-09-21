@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omni_ledger/core/constants/app_constants.dart';
 import 'package:omni_ledger/core/util/validator.dart';
 import 'package:omni_ledger/shared/ui/app_text_button.dart';
@@ -115,32 +116,37 @@ class _LoginFormState extends State<LoginForm> {
                         ],
                       ),
                       SizedBox(height: 60),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppConstants.containerColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  "New Store Owner",
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Text(
-                                  "Contact admin for account setup.",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            ),
-                            Icon(
-                              Icons.report_gmailerrorred,
-                              color: AppConstants.secondaryColor,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          context.go(AppConstants.register);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppConstants.containerColor,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "New Store Owner",
+                                    style: Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  Text(
+                                    "Create your account",
+                                    style: Theme.of(context).textTheme.labelMedium,
+                                  ),
+                                ],
+                              ),
+                              Icon(
+                                Icons.person_add,
+                                color: AppConstants.secondaryColor,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

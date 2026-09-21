@@ -8,12 +8,17 @@ class BillRepositoryImpl extends BillRepository {
   BillRepositoryImpl(this.remote);
 
   @override
-  Future<void> createBill(Map<String, dynamic> data) {
+  Future<BillModel> createBill(Map<String, dynamic> data) {
     return remote.createBill(data);
   }
 
   @override
-  Future<List<BillModel>> getBills(String status) {
-    return remote.getBills(status);
+  Future<List<BillModel>> getBills() {
+    return remote.getBills();
+  }
+
+  @override
+  Future<void> togglePaymentStatus(int billId) {
+    return remote.togglePaymentStatus(billId);
   }
 }

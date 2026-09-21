@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:omni_ledger/core/exceptions/api_exception.dart';
 import 'package:omni_ledger/features/inventory/domain/entities/item.dart';
 import 'package:omni_ledger/features/inventory/domain/usecases/items_usecases.dart';
 import 'package:omni_ledger/features/inventory/presentation/bloc/item_event.dart';
@@ -17,7 +18,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
         _allItems = items;
         emit(ItemLoaded(items: items, filterItems: items));
       } catch (e) {
-        emit(ItemError("Failed to Fetch Items"));
+        emit(ItemError(_message(e, "Failed to Fetch Items")));
       }
     });
 
@@ -27,7 +28,8 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
           return item.name.toLowerCase().contains(event.query.toLowerCase());
         }).toList();
 
-        emit(ItemLoaded(items: _allItems, filterItems: filtered));
+        final loaded = state as ItemLoaded;
+        emit(loaded.copyWith(filterItems: filtered));
       }
     });
 
@@ -37,8 +39,60 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
         await itemsUsecases.create(event.name, event.unitPrice);
         emit(ItemCreated());
       } catch (e) {
-        emit(ItemError("Failed to Create Item"));
+        emit(ItemError(_message(e, "Failed to Create Item")));
       }
     });
+
+    on<UpdateItemEvent>((event, emit) async {
+      emit(ItemLoading());
+      try {
+        await itemsUsecases.update(event.itemId, event.name, event.unitPrice);
+        emit(ItemUpdated());
+      } catch (e) {
+        emit(ItemError(_message(e, "Failed to Update Item")));
+      }
+    });
+
+    on<DeleteItemEvent>((event, emit) async {
+      if (state is ItemLoaded) {
+        final loaded = state as ItemLoaded;
+        emit(
+          loaded.copyWith(deletingIds: {...loaded.deletingIds, event.itemId}),
+        );
+      }
+
+      try {
+        await itemsUsecases.delete(event.itemId);
+        emit(ItemDeleted());
+        await _fetch(emit);
+      } catch (e) {
+        if (state is ItemLoaded) {
+          final loaded = state as ItemLoaded;
+          emit(
+            ItemError(
+              _message(e, "Failed to Delete Item"),
+              items: loaded.items,
+              filterItems: loaded.filterItems,
+            ),
+          );
+        } else {
+          emit(ItemError(_message(e, "Failed to Delete Item")));
+        }
+      }
+    });
+  }
+
+  Future<void> _fetch(Emitter<ItemState> emit) async {
+    try {
+      final items = await itemsUsecases.call();
+      _allItems = items;
+      emit(ItemLoaded(items: items, filterItems: items));
+    } catch (e) {
+      emit(ItemError(_message(e, "Failed to Fetch Items")));
+    }
+  }
+
+  String _message(Object e, String fallback) {
+    return e is ApiException ? e.message : fallback;
   }
 }

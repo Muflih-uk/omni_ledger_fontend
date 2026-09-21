@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omni_ledger/core/constants/app_constants.dart';
-import 'package:omni_ledger/features/bill/presentation/pages/create_bill_page.dart';
+import 'package:omni_ledger/features/ads/presentation/widgets/banner_ad_widget.dart';
+import 'package:omni_ledger/features/bill/presentation/pages/billing_page.dart';
 import 'package:omni_ledger/features/bill/presentation/pages/history_page.dart';
 import 'package:omni_ledger/features/home/presentation/pages/home_page.dart';
 import 'package:omni_ledger/features/inventory/presentation/pages/inventory_page.dart';
 import 'package:omni_ledger/features/main/presentation/bloc/bloc.dart';
 import 'package:omni_ledger/features/main/presentation/bloc/event.dart';
 import 'package:omni_ledger/features/main/presentation/bloc/state.dart';
+import 'package:omni_ledger/features/main/presentation/widgets/main_navigation_bar.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  final int initialIndex;
+  const MainPage({super.key, this.initialIndex = 0});
 
   final List<Widget> pages = const [
     HomePage(),
-    CreateBillPage(),
+    BillingPage(),
     HistoryPage(),
     InventoryPage(),
   ];
@@ -23,7 +26,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NavigationBloc(),
+      create: (_) => NavigationBloc(initialIndex: initialIndex),
       child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
           return Container(
@@ -33,81 +36,26 @@ class MainPage extends StatelessWidget {
                 centerTitle: false,
                 title: const Text("Omni Ledger"),
               ),
-              body: pages[state.currentIndex],
-              bottomNavigationBar: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
-                ),
-                margin: const EdgeInsets.symmetric(horizontal: 0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(4, (index) {
-                    final isSelected = state.currentIndex == index;
-
-                    final icons = [
-                      Icons.home,
-                      Icons.receipt,
-                      Icons.history,
-                      Icons.inventory,
-                    ];
-
-                    final labels = ["Home", "Billing", "History", "Inventory"];
-
-                    return GestureDetector(
-                      onTap: () {
-                        context.read<NavigationBloc>().add(
-                          MainChangeTabEvent(index),
-                        );
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppConstants.primaryColor
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              icons[index],
-                              color: isSelected
-                                  ? Colors.white
-                                  : AppConstants.neutralColor,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              labels[index],
-                              style: TextStyle(
-                                color: isSelected
-                                    ? Colors.white
-                                    : AppConstants.neutralColor,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-                ),
+              body: Column(
+                children: [
+                  const BannerAdWidget(),
+                  Expanded(child: pages[state.currentIndex]),
+                ],
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  context.go(AppConstants.additemPage);
+              bottomNavigationBar: MainNavigationBar(
+                currentIndex: state.currentIndex,
+                onTabSelected: (index) {
+                  context.read<NavigationBloc>().add(MainChangeTabEvent(index));
                 },
-                child: Icon(Icons.add),
               ),
+              floatingActionButton: state.currentIndex == 3
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        context.go(AppConstants.additemPage);
+                      },
+                      child: Icon(Icons.add),
+                    )
+                  : null,
             ),
           );
         },

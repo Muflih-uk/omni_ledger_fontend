@@ -18,6 +18,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> register(String name, String phone, String password) {
+    return remote.register(name, phone, password);
+  }
+
+  @override
   bool isLoggedIn() {
     final token = local.getToken();
     return token != null;
